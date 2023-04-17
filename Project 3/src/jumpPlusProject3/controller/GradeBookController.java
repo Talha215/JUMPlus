@@ -170,19 +170,32 @@ public class GradeBookController {
 			
 			found = currentUser.getClasses().stream().filter(e -> e.getName().equals(classChosen)).findFirst().orElse(null);
 			
-			if(found != null) {
+			System.out.println(Colors.RESET);
+			
+			if(found != null)
 				currentClass = found;
-			}
+			else
+				System.out.println(Colors.RED + "Not a valid class. Try again." + Colors.RESET);
 
 		} while(found == null);
 		
+		System.out.println(Colors.GREEN + "You've selected " + currentClass.getName() + Colors.RESET);
 		
+		classActions();
+		
+		currentClass = null;
+	}
+
+	private static void classActions() {
+		currentClass.printClass();
 	}
 
 	private static void addClass() {
-		System.out.print("Name of class to add:");
+		System.out.print(Colors.RESET + "Name of class to add:" + Colors.YELLOW);
 		
 		currentUser.addClass(input.nextLine().trim());
+		
+		System.out.print(Colors.RESET);
 		
 		chooseClass();
 	}

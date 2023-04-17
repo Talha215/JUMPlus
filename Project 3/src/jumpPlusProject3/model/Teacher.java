@@ -37,4 +37,7 @@ public class Teacher {
 		this.password = password;
 	}
 	
+	public List<Class> getClasses() {
+		return classes;
+	}
 }

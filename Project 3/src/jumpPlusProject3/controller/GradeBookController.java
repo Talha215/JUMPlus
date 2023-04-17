@@ -10,14 +10,13 @@ import jumpPlusProject3.util.Colors;
 
 public class GradeBookController {
 	private static Scanner input = new Scanner(System.in);
-	private static List<Teacher> teachers;
+	private static List<Teacher> teachers = new ArrayList<Teacher>();
 	private static Teacher currentUser;
 	private static Class currentClass;
 	
 	public static void run() {
 		currentUser = null;
 		currentClass = null;
-		teachers = new ArrayList<Teacher>();
 		loginMenu();
 		chooseClass();
 	}
@@ -120,7 +119,142 @@ public class GradeBookController {
 	}
 
 	private static void chooseClass() {
+		printClasses();
+		
+		int option = 0;
+		do {
+			System.out.println("1. Add a Class");
+			System.out.println("2. Select a Class");
+			System.out.println("3. Log out\n");
+
+			System.out.print(Colors.GREEN + "Enter Choice (1, 2, or 3): " + Colors.YELLOW);
+			try {
+				option = Integer.parseInt(input.nextLine().trim());
+			} catch (Exception e) {
+				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
+				continue;
+			}
+			if (option < 0 || option > 3)
+				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
+
+		} while(option <= 0 || option > 3);
+		
+		switch(option) {
+		case 1:
+			addClass();
+			chooseClass();
+			break;
+		case 2:
+			if(currentUser.getClasses().isEmpty()) {
+				System.out.println(Colors.RED + "There are no classes to choose from." + Colors.RESET);
+				chooseClass();
+			}
+			else {
+				selectClass();
+				chooseClass();
+			}
+			break;
+		case 3:
+			run();
+			break;
+		}
+	}
+
+	private static void selectClass() {
+		printClasses();
+		
+		Class found = null;
+		do {
+			System.out.print(Colors.GREEN + "Choose a class: " + Colors.YELLOW);
+			String classChosen = input.nextLine();
+			
+			found = currentUser.getClasses().stream().filter(e -> e.getName().equals(classChosen)).findFirst().orElse(null);
+			
+			if(found != null) {
+				currentClass = found;
+			}
+
+		} while(found == null);
+		
 		
 	}
 
+	private static void addClass() {
+		System.out.print("Name of class to add:");
+		
+		currentUser.addClass(input.nextLine().trim());
+		
+		chooseClass();
+	}
+
+	private static void printClasses() {
+		System.out.println(Colors.PURPLE);
+		System.out.println("+-----------------+");
+		System.out.println("| List of Classes |");
+		System.out.println("+-----------------+");
+		System.out.println(Colors.CYAN);
+		
+		if(currentUser.getClasses().isEmpty())
+			System.out.println(Colors.RED + "There are no classes to choose from." + Colors.RESET);
+		
+		currentUser.getClasses().stream().forEach((c) -> {
+			System.out.println(c.getName());
+		});
+		System.out.println(Colors.RESET);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

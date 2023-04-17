@@ -11,7 +11,7 @@ import jumpPlusProject2.model.Movie;
 import jumpPlusProject2.model.User;
 import jumpPlusProject2.utility.Colors;
 
-public class DollarsBankController {
+public class MovieRatingController {
 	private static Scanner input = new Scanner(System.in);
 	private static User currentUser;
 	private static Map<String, Movie> movies;

@@ -35,18 +35,7 @@ public class DollarsBankController {
 		if(currentUser == null)
 			exit();
 		
-		mainMenu();	
-		
-		//create account or login
-//		User temp = new User("email", "pass");
-//		temp.addRating(movies.get("Jaws"), 5.0);
-//		
-//		currentUser = new User("talha@example.com", "Password123!");
-//		
-//		currentUser.addRating(movies.get("Jaws"), 3.0); //added Jaws with rating of 3 stars
-//		currentUser.addRating(movies.get("The Force Awakens"), 5.0);
-//		currentUser.addRating(movies.get("Mario"), 0.0);
-//		currentUser.printUserRatings();
+		mainMenu();
 	}
 	
 	private static void exit() {

@@ -5,18 +5,21 @@ import java.util.List;
 import java.util.Scanner;
 
 import jumpPlusProject3.model.Teacher;
+import jumpPlusProject3.model.Class;
 import jumpPlusProject3.util.Colors;
 
 public class GradeBookController {
+	private static Scanner input = new Scanner(System.in);
 	private static List<Teacher> teachers;
 	private static Teacher currentUser;
-	private static Scanner input = new Scanner(System.in);
+	private static Class currentClass;
 	
 	public static void run() {
 		currentUser = null;
+		currentClass = null;
 		teachers = new ArrayList<Teacher>();
 		loginMenu();
-		mainMenu();
+		chooseClass();
 	}
 
 	private static void loginMenu() {
@@ -116,8 +119,7 @@ public class GradeBookController {
 		System.out.println(Colors.CYAN + "Account created.\n" + Colors.RESET);
 	}
 
-	private static void mainMenu() {
-		// TODO Auto-generated method stub
+	private static void chooseClass() {
 		
 	}
 

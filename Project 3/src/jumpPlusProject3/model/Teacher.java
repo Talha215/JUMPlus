@@ -1,5 +1,6 @@
 package jumpPlusProject3.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher {
@@ -10,6 +11,17 @@ public class Teacher {
 	public Teacher(String username, String password) {
 		this.username = username;
 		this.password = password;
+		classes = new ArrayList<Class>();
+	}
+	
+	public Class addClass(String name) {
+		Class ret = new Class(name);
+		classes.add(ret);
+		return ret;
+	}
+	
+	public void addStudent(Class classGiven, Student student) {
+		classGiven.addStudent(student);
 	}
 	
 	public String getUsername() {

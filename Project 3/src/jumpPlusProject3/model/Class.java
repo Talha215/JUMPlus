@@ -1,5 +1,7 @@
 package jumpPlusProject3.model;
 
-public class Class {
+import java.util.List;
 
+public class Class {
+	private List<Student> students;
 }

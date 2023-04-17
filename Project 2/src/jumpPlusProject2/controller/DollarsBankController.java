@@ -24,6 +24,11 @@ public class DollarsBankController {
 		movies.put("The Force Awakens", new Movie("The Force Awakens"));
 		movies.put("Black Panther", new Movie("Black Panther"));
 		movies.put("Mario", new Movie("Mario"));
+		movies.put("The Shawshank Redemption", new Movie("The Shawshank Redemption"));
+		movies.put("The Godfather", new Movie("The Godfather"));
+		movies.put("The Dark Knight", new Movie("The Dark Knight"));
+		movies.put("12 Angry Men", new Movie("12 Angry Men"));
+		movies.put("Pulp Fiction", new Movie("Pulp Fiction"));
 	}
 	
 	public static void run() {
@@ -32,14 +37,11 @@ public class DollarsBankController {
 		
 		loginMenu();
 		
-		if(currentUser == null)
-			exit();
-		
 		mainMenu();
 	}
 	
 	private static void exit() {
-		System.out.println(Colors.BLUE + "Goodbye!" + Colors.RESET);		
+		System.out.println(Colors.GREEN + "Goodbye!" + Colors.RESET);		
 		input.close();
 		System.exit(0);
 	}
@@ -48,17 +50,19 @@ public class DollarsBankController {
 		int option = 0;
 
 		do {
-			System.out.println(Colors.CYAN);
+			System.out.println(Colors.PURPLE);
 			System.out.println("+----------------+");
 			System.out.println("| Movie Ratings! |");
 			System.out.println("+----------------+");
 			System.out.println(Colors.RESET);
 
+			printAllMovies();
+			
 			System.out.println("1. Create New Account");
 			System.out.println("2. Login");
 			System.out.println("3. Exit\n");
 
-			System.out.print(Colors.GREEN + "Enter Choice (1, 2, or 3): " + Colors.RESET);
+			System.out.print(Colors.GREEN + "Enter Choice (1, 2, or 3): " + Colors.YELLOW);
 			try {
 				option = Integer.parseInt(input.nextLine().trim());
 			} catch (Exception e) {
@@ -85,7 +89,7 @@ public class DollarsBankController {
 	}
 
 	private static void login() {
-		System.out.println(Colors.CYAN);
+		System.out.println(Colors.PURPLE);
 		System.out.println("+---------------------+");
 		System.out.println("| Enter Login Details |");
 		System.out.println("+---------------------+");
@@ -108,7 +112,7 @@ public class DollarsBankController {
 	}
 
 	private static void createAccount() {
-		System.out.println(Colors.CYAN);
+		System.out.println(Colors.PURPLE);
 		System.out.println("+-----------------------+");
 		System.out.println("| Enter Account Details |");
 		System.out.println("+-----------------------+");
@@ -147,7 +151,7 @@ public class DollarsBankController {
 	
 	
 	private static void mainMenu() {
-		System.out.println(Colors.CYAN);
+		System.out.println(Colors.PURPLE);
 		System.out.println("+----------------+");
 		System.out.println("| Movie Ratings! |");
 		System.out.println("+----------------+");
@@ -156,7 +160,7 @@ public class DollarsBankController {
 		if(currentUser.getUserRatings().isEmpty())
 			System.out.println(Colors.YELLOW + "You have no ratings!\n" + Colors.RESET);
 		else {
-			System.out.println(Colors.CYAN + "Your Movie Ratings:");
+			System.out.println(Colors.GREEN + "Your Movie Ratings:");
 			currentUser.printUserRatings();
 			System.out.println(Colors.RESET);
 		}
@@ -193,7 +197,10 @@ public class DollarsBankController {
 						System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
 						continue;
 					}
-				} while(rating < 0);
+					
+					if(rating < 0 || rating > 5)
+						System.out.println(Colors.RED + "Rating must be between 0 and 5. Try again." + Colors.RESET);
+				} while(rating < 0 || rating > 5);
 				System.out.println(Colors.RESET);
 				
 				currentUser.addRating(movies.get(movieTitle), rating);
@@ -208,12 +215,13 @@ public class DollarsBankController {
 	}
 
 	private static void printAllMovies() {
-		System.out.println("Movies:" + Colors.PURPLE);
-		System.out.printf("%-20s\t%s\t%s%n", "Title", "Average Rating", "Number of Ratings");
+		System.out.print(Colors.GREEN);
+		System.out.printf("%-30s\t%s\t%s%n", "Title", "Average Rating", "Number of Ratings");
+		System.out.print(Colors.CYAN);
 		movies.forEach((title, movie) -> {
 			int movieNumRatings = movie.getNumRatings();
 			String movieAvgRating = movieNumRatings > 0 ? String.valueOf(movie.getAvgRating()) : "N/A";
-			System.out.printf("%-20s\t%s\t\t%s%n", title, movieAvgRating, movieNumRatings);
+			System.out.printf("%-30s\t%s\t\t%s%n", title, movieAvgRating, movieNumRatings);
 		});
 		System.out.println(Colors.RESET + "\n");
 	}

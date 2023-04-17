@@ -20,12 +20,13 @@ public class User {
 	}
 	
 	public void printUserRatings() {
-		System.out.printf("%-20s%s%n", "Title", "User Rating");
+		System.out.printf("%-30s\t%s%n", "Title", "User Rating");
+		System.out.print(jumpPlusProject2.utility.Colors.CYAN);
 		userRatings.forEach((movie, rating) -> {
 			String title = movie.getTitle();
 			double userRating = rating;
 			
-			System.out.printf("%-20s%s%n", title, userRating);
+			System.out.printf("%-30s\t%s%n", title, userRating);
 		});
 	}
 

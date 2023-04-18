@@ -2,6 +2,7 @@ package jumpPlusProject3.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jumpPlusProject3.util.Colors;
 
@@ -9,10 +10,13 @@ public class Class {
 	private String name;
 	private List<Student> students;
 	private double average;
+	private double median;
 	
 	public Class(String name) {
 		this.name = name;
 		students = new ArrayList<Student>();
+		average = 100;
+		median = 100;
 	}
 	
 	public void printClass() {
@@ -26,12 +30,26 @@ public class Class {
 		students.forEach(System.out::println);
 		
 		if(students.size() > 0)
-			updateAverage();
+			updateStats();
 		System.out.println(Colors.GREEN + "Class Average:" + average + Colors.RESET);
+		System.out.println(Colors.GREEN + "Class Median:" + median + Colors.RESET);
 	}
 	
-	private void updateAverage() {
+	private void updateStats() {
 		average = students.stream().mapToDouble(Student::getGrade).average().getAsDouble();
+		median = students.stream()
+	        .map(Student::getGrade)
+	        .sorted()
+	        .collect(Collectors.collectingAndThen(
+	                Collectors.toList(),
+	                grades -> {
+	                    int count = grades.size();
+	                    if (count % 2 == 0) { // even number
+	                        return (grades.get(count / 2 - 1) + grades.get(count / 2)) / 2;
+	                    } else { // odd number
+	                        return grades.get(count / 2);
+	                    }
+	                }));
 	}
 	
 	public void addStudent(Student student) {

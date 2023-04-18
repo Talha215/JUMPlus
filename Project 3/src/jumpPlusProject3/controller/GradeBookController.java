@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import jumpPlusProject3.model.Teacher;
 import jumpPlusProject3.model.Class;
+import jumpPlusProject3.model.Student;
+import jumpPlusProject3.model.Teacher;
 import jumpPlusProject3.util.Colors;
 
 public class GradeBookController {
@@ -42,7 +43,7 @@ public class GradeBookController {
 				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
 				continue;
 			}
-			if (option < 0 || option > 3)
+			if (option <= 0 || option > 3)
 				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
 
 		} while (option <= 0 || option > 3);
@@ -63,6 +64,7 @@ public class GradeBookController {
 	
 	private static void exit() {
 		input.close();
+		System.out.println(Colors.CYAN + "Goodbye!" + Colors.RESET);
 		System.exit(0);
 	}
 
@@ -134,7 +136,7 @@ public class GradeBookController {
 				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
 				continue;
 			}
-			if (option < 0 || option > 3)
+			if (option <= 0 || option > 3)
 				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
 
 		} while(option <= 0 || option > 3);
@@ -188,6 +190,79 @@ public class GradeBookController {
 
 	private static void classActions() {
 		currentClass.printClass();
+		
+		int option = 0;
+		do {
+			System.out.println("\n1. Add a student");
+			System.out.println("2. Remove a student");
+			System.out.println("3. Change a student's grade");
+			System.out.println("4. Sort by alphabetical order");
+			System.out.println("5. Sort by highest grade");
+			System.out.println("6. Choose another class\n");
+
+			System.out.print(Colors.GREEN + "Enter Choice (1-6): " + Colors.YELLOW);
+			try {
+				option = Integer.parseInt(input.nextLine().trim());
+			} catch (Exception e) {
+				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
+				continue;
+			}
+			if (option <= 0 || option > 6)
+				System.out.println(Colors.RED + "Not a valid choice. Try again." + Colors.RESET);
+
+		} while(option <= 0 || option > 6);
+
+		switch(option) {
+		case 1:
+			System.out.print(Colors.RESET + "Name of student to add:" + Colors.YELLOW);
+			currentClass.addStudent(new Student(input.nextLine().trim()));
+			System.out.println(Colors.RESET);
+			break;
+		case 2:
+			System.out.print(Colors.RESET + "Name of student to remove:" + Colors.YELLOW);
+			String nameRemove = input.nextLine().trim();
+			if(currentClass.removeStudent(nameRemove)) //successful removal
+				System.out.println(Colors.RED + nameRemove + " is removed from the class." + Colors.RESET);
+			else
+				System.out.println(Colors.RED + "Could not find student with name: " + nameRemove + Colors.RESET);
+			break;
+		case 3:
+			System.out.print(Colors.RESET + "Name of student:" + Colors.YELLOW);
+			String nameGradeChange = input.nextLine().trim();
+			
+			double grade = -1;
+			do {
+				System.out.print(Colors.RESET + "Enter new grade for student:" + Colors.YELLOW);
+				try {	
+					grade = Double.parseDouble(input.nextLine().trim());
+				} catch(Exception e) {
+					System.out.println(Colors.RED + "Grade must be between 0-100. Try again." + Colors.RESET);
+				}
+				if(grade < 0 || grade > 100)
+					System.out.println(Colors.RED + "Grade must be between 0-100. Try again." + Colors.RESET);
+			} while(grade < 0 || grade > 100);
+			
+			if(currentClass.changeGrade(nameGradeChange, grade))
+				System.out.println(Colors.GREEN + "Student " + nameGradeChange + " now has a grade of " + grade + Colors.RESET + "\n");
+			else
+				System.out.println(Colors.RED + "Could not find student with name: " + nameGradeChange + Colors.RESET);
+			break;
+		case 4:
+			currentClass.setStudents(
+					currentClass.getStudents().stream().
+					sorted((student1, student2) -> student1.getName().compareTo(student2.getName())).
+					toList());
+			break;
+		case 5:
+			currentClass.setStudents(
+					currentClass.getStudents().stream().
+					sorted((student1, student2) ->  (int) (student2.getGrade() - student1.getGrade() + 0.5)).
+					toList());
+			break;
+		case 6:
+			return;
+		}
+		classActions();
 	}
 
 	private static void addClass() {
@@ -217,57 +292,3 @@ public class GradeBookController {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

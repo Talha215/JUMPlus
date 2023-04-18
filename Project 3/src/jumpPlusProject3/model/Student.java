@@ -9,6 +9,11 @@ public class Student {
 		grade = 100; //Each Student starts out with a 100
 	}
 
+	@Override
+	public String toString() {		
+		return name + "\t" + grade;
+	}
+	
 	public String getName() {
 		return name;
 	}
